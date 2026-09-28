@@ -1,4 +1,3 @@
-
 # Illumination Beams for a Light-Sheet Microscope: Fourier-Optics Simulation
 
 Numerical study of the illumination beams used in light-sheet fluorescence microscopy (LSFM). A Python/NumPy simulator computes the electric field produced by a microscope objective from the field in its pupil, and is used to compare Gaussian, Bessel and Airy beams.
@@ -13,7 +12,7 @@ The field in the focal region is obtained from the Fourier transform of the pupi
 E(x, y, z) = -(i f / (λ0 kt²)) · F[ Et(θ, φ) / cos(θ) ] · exp(i k z)
 ```
 
-- The pupil field is a 250 × 250 grid (disk of radius 4 mm, 32 µm per pixel); the Fourier transform is computed with `numpy.fft`.
+- The pupil field is sampled on a grid of about 250 × 250 points (disk of radius 4 mm, about 32 µm per pixel); the Fourier transform is computed with `numpy.fft`.
 - The field is evaluated on a list of z values (500 points over [-100, 100] µm) and visualised through the XY, XZ and YZ cross-sections.
 - For the obstacle study, the beam is propagated with an angular-spectrum propagator: `E(x, y, z) = F⁻¹{ F{E(x, y, 0)} · H(fx, fy, z) }`.
 
@@ -33,14 +32,35 @@ E(x, y, z) = -(i f / (λ0 kt²)) · F[ Et(θ, φ) / cos(θ) ] · exp(i k z)
 - **Airy beam** (cubic phase in the pupil): parabolic trajectory (about 8 µm of deviation over 200 µm of propagation) and square-shaped main lobe.
 - **Self-healing of the Airy beam**: an obstacle is placed on the main lobe and the beam is propagated with the angular-spectrum method; the intensity distribution is recovered after a certain distance, while the energy blocked by the obstacle stays lost.
 
+## Repository structure
+
+The code is provided as Jupyter notebooks. Each notebook redefines the few shared functions (field computation, plotting, beam-edge detection), so they can be run independently.
+
+```
+├── README.md
+└── notebooks/
+    ├── PMI.ipynb                  # simulator + compact runs of all beams (Gaussian, quadratic phase, Bessel, Airy)
+    ├── Boucle_R.ipynb             # sweep of the pupil radius (NA): FWHM versus NA, compared with theory
+    ├── phase_quadratique.ipynb    # sweep of the quadratic-phase coefficient, focal shift, power-law fit
+    │                              # (gradient descent written from scratch)
+    ├── Bessel.ipynb               # ring parameters scan, length of the constant-FWHM zone
+    └── Airy.ipynb                 # Airy beam, trajectory, self-healing with an obstacle, (angular-spectrum propagator), Poynting vector
+└── Figures                               
+```
+
 ## Usage
 
 ```bash
-pip install numpy matplotlib
-python src/[script_name].py
+pip install numpy matplotlib jupyter
+jupyter notebook
 ```
 
-Requirements: Python 3, NumPy, Matplotlib. [Add any other library actually used.]
+Open a notebook from the `notebooks/` folder and run it from top to bottom. Requirements: Python 3, NumPy, Matplotlib, Jupyter. `Boucle_R.ipynb` is the slowest one (a 3D field is computed for each of the 30 pupil radii).
+
+## Notes
+
+- Comments and plot labels in the notebooks are in French.
+- Some notebooks contain parameter scans used to find values that make the beam features most visible, so a few cells use values that differ from the final ones quoted in the report.
 
 ## Author
 
