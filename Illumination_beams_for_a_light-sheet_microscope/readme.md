@@ -64,8 +64,7 @@ Open a notebook from the `notebooks/` folder and run it from top to bottom. Requ
 
 ## Author
 
-Nolan Le Tyrant, Télécom Physique Strasbourg. I wrote all the simulation code and the results and analysis chapters of the project report, which is available on request.
-
+Nolan Le Tyrant, Télécom Physique Strasbourg. I wrote all the simulation code and the results and analysis chapters of the project report.
 ## License
 
 [MIT, see `LICENSE`]
